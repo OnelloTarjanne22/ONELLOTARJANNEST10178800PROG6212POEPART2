@@ -10,6 +10,7 @@
     <thead>
         <tr>
             <th>Claim ID</th>
+            <th>Lecturer ID</th>
             <th>Name</th>
             <th>Rate</th>
             <th>Hours Worked</th>
@@ -27,6 +28,7 @@
             {
                 <tr>
                     <td>@claim.ClaimId</td>
+                    <td>@claim.LecturerId</td>
                     <td>@claim.Name</td>
                     <td>@claim.Rate</td>
                     <td>@claim.Hours</td>
@@ -50,7 +52,7 @@
         else
         {
             <tr>
-                <td colspan="6">No  pending claims available.</td>
+                <td colspan="6">No pending claims available.</td>
             </tr>
         }
     </tbody>
@@ -58,6 +60,3 @@
 <form asp-controller="Claims" asp-action="ClaimView" method="get">
     <button class="form-btn" type="submit">View All Claims</button>
 </form>
-
-
-
