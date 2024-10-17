@@ -10,6 +10,7 @@
     <thead>
         <tr>
             <th>Claim ID</th>
+            <th>Lecturer ID</th>
             <th>Name</th>
             <th>Rate</th>
             <th>Hours Worked</th>
@@ -26,6 +27,7 @@
             {
                 <tr>
                     <td>@claim.ClaimId</td>
+                    <td>@claim.LecturerId</td>
                     <td>@claim.Name</td>
                     <td>@claim.Rate</td>
                     <td>@claim.Hours</td>
@@ -33,7 +35,7 @@
                     <td>@claim.Description</td>
                     <td>@claim.ClaimStatus</td>
                     <td>@claim.ClaimDate.ToShortDateString()</td>
-                  
+
                 </tr>
             }
         }
@@ -45,11 +47,5 @@
         }
     </tbody>
 </table>
-<form asp-controller="Claims" asp-action="ClaimView" method="get">
-    <button class="btn btn-primary" type="submit">View All Claims</button>
-</form>
-
-
-
 
 

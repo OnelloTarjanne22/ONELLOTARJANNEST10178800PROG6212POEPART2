@@ -10,7 +10,12 @@
         <h2>Claim Form</h2>
     </div>
     <div class="card-body">
-        <form asp-controller="Claims" asp-action="SubmitClaim" method="post">
+        <form asp-controller="Claims" asp-action="SubmitClaim" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label asp-for="LecturerId">Lecturer Id:</label>
+                <input asp-for="LecturerId" type="number" class="form-control" placeholder="Enter your ID" required />
+                <span asp-validation-for="LecturerId" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Name">Name:</label>
                 <input asp-for="Name" class="form-control" placeholder="Enter your name" required />
@@ -29,6 +34,10 @@
             <div class="form-group">
                 <label for="ClaimDate">Claim Date</label>
                 <input type="date" id="ClaimDate" name="ClaimDate" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="uploadedFile">Upload Document:</label>
+                <input type="file" name="uploadedFile" class="form-control" required />
             </div>
 
             <div class="form-group">

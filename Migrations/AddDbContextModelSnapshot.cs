@@ -54,6 +54,9 @@ namespace ONELLOTARJANNEST10178800PROG6212POEPART2.Migrations
                     b.Property<int>("Rate")
                         .HasColumnType("int");
 
+                    b.Property<string>("UploadedFilePath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("ClaimId");
 
                     b.ToTable("Claims");

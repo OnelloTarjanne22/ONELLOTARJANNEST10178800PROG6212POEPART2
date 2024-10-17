@@ -12,7 +12,7 @@ using ONELLOTARJANNEST10178800PROG6212POEPART2.Data;
 namespace ONELLOTARJANNEST10178800PROG6212POEPART2.Migrations
 {
     [DbContext(typeof(AddDbContext))]
-    [Migration("20241017093959_AddClaims")]
+    [Migration("20241017211813_AddClaims")]
     partial class AddClaims
     {
         /// <inheritdoc />
@@ -56,6 +56,9 @@ namespace ONELLOTARJANNEST10178800PROG6212POEPART2.Migrations
 
                     b.Property<int>("Rate")
                         .HasColumnType("int");
+
+                    b.Property<string>("UploadedFilePath")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ClaimId");
 

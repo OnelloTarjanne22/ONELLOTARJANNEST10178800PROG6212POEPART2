@@ -15,20 +15,54 @@ namespace ONELLOTARJANNEST10178800PROG6212POEPART2.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SubmitClaim(Claim claim)
+        public async Task<IActionResult> SubmitClaim(Claim claim, IFormFile uploadedFile)
         {
-            if (ModelState.IsValid)
+            // Validate file
+            if (uploadedFile == null || uploadedFile.Length == 0)
             {
-               
-                _context.Claims.Add(claim);
-                await _context.SaveChangesAsync();
-
-                return RedirectToAction("ClaimSuccess", "Home");
+                ModelState.AddModelError("UploadedFilePath", "File is required.");
+                return View("post", claim); // Re-render the form with validation errors
             }
 
-          
-            return View(claim); 
+            // Set the file path where the file will be saved
+            var filePath = Path.Combine("wwwroot/uploads", Path.GetFileName(uploadedFile.FileName));
+
+            // Upload the file
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await uploadedFile.CopyToAsync(stream);
+            }
+
+            // Save the file path in the claim model
+            claim.UploadedFilePath = filePath;
+
+            // Save the claim to the database
+            _context.Claims.Add(claim);
+            await _context.SaveChangesAsync();
+
+            // Redirect to the success page
+            return RedirectToAction("ClaimSuccess", "Home");
         }
+        [HttpGet]
+        public IActionResult DownloadFile(string filePath)
+        {
+            if (string.IsNullOrEmpty(filePath))
+            {
+                return NotFound(); // Return 404 if the file path is null or empty
+            }
+
+            var fileName = Path.GetFileName(filePath);
+            var fullPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", fileName);
+
+            if (!System.IO.File.Exists(fullPath))
+            {
+                return NotFound(); // Return 404 if the file does not exist
+            }
+
+            var fileBytes = System.IO.File.ReadAllBytes(fullPath);
+            return File(fileBytes, "application/octet-stream", fileName);
+        }
+
         [HttpPost]
         public async Task<IActionResult> ApproveClaim(int claimId)
         {

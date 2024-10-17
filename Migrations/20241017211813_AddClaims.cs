@@ -23,7 +23,8 @@ namespace ONELLOTARJANNEST10178800PROG6212POEPART2.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Hours = table.Column<int>(type: "int", nullable: false),
                     ClaimStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ClaimDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    ClaimDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UploadedFilePath = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
