@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Profile";
+}
+<h1>@ViewData["Title"]</h1>
+<center>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <form asp-area="" asp-controller="Home" asp-action="Post" method="post">
+        <button class="form-btn" type="submit">
+            Lecturer Dashboard
+        </button>
+    </form>
+    <br />
+    <form asp-controller="Claims" asp-action="Track" method="get">
+        <button class="form-btn" type="submit">
+           Academic Managers/Programme Coordinator Dashboard
+        </button>
+    </form>
+</center>
