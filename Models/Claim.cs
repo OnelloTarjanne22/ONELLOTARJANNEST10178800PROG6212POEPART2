@@ -25,5 +25,6 @@ namespace ONELLOTARJANNEST10178800PROG6212POEPART2.Models
         public string ClaimStatus { get; set; } = "Pending";
         public DateTime ClaimDate { get; set; }
         public int ClaimAmount => Rate * Hours;
+        public string? UploadedFilePath { get; set; }
     }
 }
