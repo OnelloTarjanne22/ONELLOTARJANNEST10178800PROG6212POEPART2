@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ONELLOTARJANNEST10178800PROG6212POEPART2.Models.Claim>
+@model IEnumerable<ONELLOTARJANNEST10178800PROG6212POEPART2.Models.Claim>
 
 @{
     ViewData["Title"] = "Track Claims";
@@ -10,6 +10,7 @@
     <thead>
         <tr>
             <th>Claim ID</th>
+            <th>Lecturer ID</th>
             <th>Name</th>
             <th>Rate</th>
             <th>Hours Worked</th>
@@ -26,6 +27,7 @@
             {
                 <tr>
                     <td>@claim.ClaimId</td>
+                    <td>@claim.LecturerId</td>
                     <td>@claim.Name</td>
                     <td>@claim.Rate</td>
                     <td>@claim.Hours</td>
@@ -45,9 +47,8 @@
         }
     </tbody>
 </table>
-<form asp-controller="Claims" asp-action="ClaimView" method="get">
-    <button class="btn btn-primary" type="submit">View All Claims</button>
-</form>
+
+
 
 
 
