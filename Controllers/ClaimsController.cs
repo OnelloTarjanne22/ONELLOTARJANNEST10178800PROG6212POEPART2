@@ -13,27 +13,57 @@ namespace ONELLOTARJANNEST10178800PROG6212POEPART2.Controllers
         {
             _context = context;
         }
-
+        //Submit claim method
         [HttpPost]
         public async Task<IActionResult> SubmitClaim(Claim claim, IFormFile uploadedFile)
         {
-            // Validate file
+            // Validation of  numeric values to ensure they are not negative
+            if (claim.LecturerId < 0)
+            {
+                ModelState.AddModelError("LecturerId", "Lecturer ID cannot be negative.");
+            }
+
+            if (claim.Rate < 0)
+            {
+                ModelState.AddModelError("Rate", "Rate cannot be negative.");
+            }
+
+            if (claim.Hours < 0)
+            {
+                ModelState.AddModelError("Hours", "Hours worked cannot be negative.");
+            }
+
+           
+            if (!ModelState.IsValid)
+            {
+                return View("post", claim);
+            }
+
+            
             if (uploadedFile == null || uploadedFile.Length == 0)
             {
                 ModelState.AddModelError("UploadedFilePath", "File is required.");
-                return View("post", claim); // Re-render the form with validation errors
+                return View("post", claim); 
             }
 
-            // Set the file path where the file will be saved
-            var filePath = Path.Combine("wwwroot/uploads", Path.GetFileName(uploadedFile.FileName));
+          
+            var uploadsDirectory = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+            var filePath = Path.Combine(uploadsDirectory, Path.GetFileName(uploadedFile.FileName));
 
-            // Upload the file
+            
+            if (System.IO.File.Exists(filePath))
+            {
+                ModelState.AddModelError("UploadedFilePath", "A file with this name already exists. Please rename your file.");
+                return View("post", claim); 
+            }
+
+            
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
                 await uploadedFile.CopyToAsync(stream);
             }
 
-            // Save the file path in the claim model
+           
             claim.UploadedFilePath = filePath;
 
             // Save the claim to the database
@@ -43,12 +73,14 @@ namespace ONELLOTARJANNEST10178800PROG6212POEPART2.Controllers
             // Redirect to the success page
             return RedirectToAction("ClaimSuccess", "Home");
         }
+
+        ///Download file method
         [HttpGet]
         public IActionResult DownloadFile(string filePath)
         {
             if (string.IsNullOrEmpty(filePath))
             {
-                return NotFound(); // Return 404 if the file path is null or empty
+                return NotFound(); 
             }
 
             var fileName = Path.GetFileName(filePath);
@@ -56,13 +88,13 @@ namespace ONELLOTARJANNEST10178800PROG6212POEPART2.Controllers
 
             if (!System.IO.File.Exists(fullPath))
             {
-                return NotFound(); // Return 404 if the file does not exist
+                return NotFound(); 
             }
 
             var fileBytes = System.IO.File.ReadAllBytes(fullPath);
             return File(fileBytes, "application/octet-stream", fileName);
         }
-
+        //Approve the claim method
         [HttpPost]
         public async Task<IActionResult> ApproveClaim(int claimId)
         {
@@ -74,7 +106,7 @@ namespace ONELLOTARJANNEST10178800PROG6212POEPART2.Controllers
             }
             return RedirectToAction("Track");
         }
-
+        //Reject claim method
         [HttpPost]
         public async Task<IActionResult> RejectClaim(int claimId)
         {
@@ -92,7 +124,7 @@ namespace ONELLOTARJANNEST10178800PROG6212POEPART2.Controllers
             return View("ClaimView", claims); 
         }
 
-
+        //Method to regard all claims as pending until the stautus is changed by admin
         public IActionResult Track()
         {
             var pendingClaims = _context.Claims.Where(c => c.ClaimStatus == "Pending").ToList();

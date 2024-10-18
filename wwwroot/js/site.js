@@ -7,14 +7,13 @@ document.getElementById('trackingForm').addEventListener('submit', function (eve
     event.preventDefault();
     alert('Tracking request sent!');
 });
-
-var passConfirm = function () {
-    if (document.getElementById("Password").value ==
-        document.getElementById("ConfirmPassword").value) {
-        document.getElementById("Message").style.color = "Green";
-        document.getElementById("Message").innerHTML = "Passwords match!"
-    } else {
-        document.getElementById("Message").style.color = "Red";
-        document.getElementById("Message").innerHTML = "Passwords do NOT match!"
+//Claim error checking
+document.getElementById("submitClaim").addEventListener("click", function(event) {
+    const rate = document.getElementById("rate").value;
+    const hours = document.getElementById("hours").value;
+    
+    if (rate < 0 || hours < 0) {
+        alert("Rate or Hours cannot be negative.");
+        event.preventDefault(); 
     }
-}
+});
