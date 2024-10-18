@@ -1,0 +1,8 @@
+ECHO is on.
+# Ignore build artifacts
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+
