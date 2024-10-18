@@ -56,8 +56,29 @@ namespace ONELLOTARJANNEST10178800PROG6212POEPART2.Controllers
                 ModelState.AddModelError("UploadedFilePath", "A file with this name already exists. Please rename your file.");
                 return View("post", claim); 
             }
+            if (uploadedFile == null || uploadedFile.Length == 0)
+            {
+                ModelState.AddModelError("UploadedFilePath", "File is required.");
+                return View("post", claim);
+            }
 
-            
+            // Validate file type (PDF, DOCX, TXT only)
+            string[] allowedExtensions = new[] { ".pdf", ".docx", ".txt" };
+            string fileExtension = Path.GetExtension(uploadedFile.FileName).ToLower();
+
+            if (!allowedExtensions.Contains(fileExtension))
+            {
+                ModelState.AddModelError("UploadedFilePath", "Only PDF, DOCX, and TXT files are allowed.");
+                return View("post", claim);
+            }
+
+
+            if (uploadedFile.Length > 200 * 1024 * 1024) // 200MB
+            {
+                ModelState.AddModelError("UploadedFilePath", "File size must not exceed 200MB.");
+                return View("post", claim);
+            }
+
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
                 await uploadedFile.CopyToAsync(stream);

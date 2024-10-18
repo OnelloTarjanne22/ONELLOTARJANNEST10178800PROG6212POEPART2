@@ -17,3 +17,4 @@ document.getElementById("submitClaim").addEventListener("click", function(event)
         event.preventDefault(); 
     }
 });
+
